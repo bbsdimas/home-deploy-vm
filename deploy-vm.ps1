@@ -2,6 +2,9 @@ $verboseLogFile = "deployment.log"
 
 $param1=$args[0]
 $param2=$args[1]
+$param3=$args[2]
+$param4=$args[3]
+
 #write-host $param1
 
 
@@ -27,10 +30,13 @@ Function My-Logger {
 
 My-Logger "Deployment Complete!"
 My-Logger "StartTime: $StartTime"
-My-Logger "param1: $args[0]"
-My-Logger "param2: $args[1]"
-My-Logger "param3: $args[2]"
-My-Logger "param4: $args[3]"
+My-Logger "param1: $param1"
+My-Logger "param2: $param2"
+My-Logger "param3: $param3"
+My-Logger "param4: $param4"
+
+#My-Logger "param3: $args[2]"
+#My-Logger "param4: $args[3]"
 
 #My-Logger "EndTime: $EndTime"
 #My-Logger " Duration: $duration minutes"
