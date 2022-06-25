@@ -1,0 +1,62 @@
+//Это декларативный пайплайн: https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline
+pipeline {
+    options { timestamps() }
+    parameters {
+        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+        text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+        booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+        choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
+        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
+    }
+    agent any
+    
+    stages {
+        stage('Stage 1: Show where am I') {
+            steps {
+                sleep 5
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}" 
+            }
+        }    
+        
+        stage('Stage 2: ENV example'){
+            environment { 
+                FLAG = 'aAbBcC'
+            }
+            steps {
+                sh 'printenv'
+                /*
+                    Вы можете увидеть в распечатанных переменных среды
+                    CC=clang
+                    DEBUG_FLAGS=-g
+                */
+            }
+        }
+        
+        stage('Stage 3: Shell cmd'){
+            steps {
+                sh 'date'
+                sh 'terraform --version'
+            }
+        }
+        
+        stage('Stage 4: Shell script'){
+            
+            steps { script {
+                    def browsers = ['chrome', 'firefox','Opera','IE','Edge']
+                    for (int i = 0; i < browsers.size(); ++i) {
+                    echo "Testing the ${browsers[i]} browser"
+                    }
+            }}
+        }
+        
+        stage('Stage 5: Params show') {
+            steps {
+                echo "Hello ${params.PERSON}"
+                echo "Biography: ${params.BIOGRAPHY}"
+                echo "Toggle: ${params.TOGGLE}"
+                echo "Choice: ${params.CHOICE}"
+                echo "Password: ${params.PASSWORD}"
+            }
+        }
+    }
+}
